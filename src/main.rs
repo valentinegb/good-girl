@@ -1,5 +1,16 @@
+use shuttle_secrets::SecretStore;
+
 #[shuttle_runtime::main]
-async fn shuttle_main() -> Result<MyService, shuttle_runtime::Error> {
+async fn shuttle_main(
+    #[shuttle_secrets::Secrets] secret_store: SecretStore,
+) -> Result<MyService, shuttle_runtime::Error> {
+    let client = megalodon::generator(
+        megalodon::SNS::Mastodon,
+        "https://hachyderm.io".to_string(),
+        secret_store.get("ACCESS_TOKEN"),
+        None,
+    );
+
     Ok(MyService {})
 }
 

@@ -7,4 +7,5 @@ publish = false
 [dependencies]
 megalodon = "0.13.2"
 shuttle-runtime = "0.41.0"
+shuttle-secrets = "0.41.0"
 tokio = "1"
