@@ -11,6 +11,11 @@ async fn shuttle_main(
         None,
     );
 
+    client
+        .post_status("I AM ALIVE".to_string(), None)
+        .await
+        .unwrap();
+
     Ok(MyService {})
 }
 
