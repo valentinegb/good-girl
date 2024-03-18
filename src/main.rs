@@ -4,6 +4,7 @@ use rand::{seq::SliceRandom, thread_rng};
 use shuttle_secrets::SecretStore;
 use tracing::info;
 
+const SLEEP_SECS: u64 = 60 * 60 * 24;
 const NAMES: &[&str] = &[
     "Lily", "Alice", "Emily", "Rose", "Sophie", "Sophia", "Samantha", "Natalie", "Luna", "Ruby",
     "Zoey", "Chloe", "Emma", "Alex", "Amy", "Sammy",
@@ -22,7 +23,7 @@ async fn shuttle_main(
 
     tokio::spawn(async move {
         loop {
-            tokio::time::sleep(Duration::from_secs(60 * 60)).await;
+            tokio::time::sleep(Duration::from_secs(SLEEP_SECS)).await;
 
             let name;
 
