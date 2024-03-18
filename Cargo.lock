@@ -501,6 +501,7 @@ name = "good-girl"
 version = "0.1.0"
 dependencies = [
  "megalodon",
+ "rand",
  "shuttle-runtime",
  "shuttle-secrets",
  "tokio",
