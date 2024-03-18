@@ -2,6 +2,7 @@ use std::time::Duration;
 
 use rand::{seq::SliceRandom, thread_rng};
 use shuttle_secrets::SecretStore;
+use tracing::info;
 
 const NAMES: &[&str] = &[
     "Lily", "Alice", "Emily", "Rose", "Sophie", "Sophia", "Samantha", "Natalie", "Luna", "Ruby",
@@ -29,10 +30,10 @@ async fn shuttle_main(
                 name = NAMES.choose(&mut rng).unwrap();
             }
 
-            client
-                .post_status(format!("{} is such a good girl", name), None)
-                .await
-                .unwrap();
+            let status = format!("{} is such a good girl", name);
+
+            client.post_status(status.clone(), None).await.unwrap();
+            info!("Posted a status: {status}");
             tokio::time::sleep(Duration::from_secs(60 * 60)).await;
         }
     });
