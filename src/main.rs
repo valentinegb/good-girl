@@ -22,6 +22,8 @@ async fn shuttle_main(
 
     tokio::spawn(async move {
         loop {
+            tokio::time::sleep(Duration::from_secs(60 * 60)).await;
+
             let name;
 
             {
@@ -34,7 +36,6 @@ async fn shuttle_main(
 
             client.post_status(status.clone(), None).await.unwrap();
             info!("Posted a status: {status}");
-            tokio::time::sleep(Duration::from_secs(60 * 60)).await;
         }
     });
 
