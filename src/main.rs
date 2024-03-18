@@ -1,7 +1,7 @@
 use std::time::Duration;
 
 use rand::{seq::SliceRandom, thread_rng};
-use shuttle_secrets::SecretStore;
+use shuttle_runtime::SecretStore;
 use tracing::info;
 
 const SLEEP_SECS: u64 = 60 * 60 * 24;
@@ -12,7 +12,7 @@ const NAMES: &[&str] = &[
 
 #[shuttle_runtime::main]
 async fn shuttle_main(
-    #[shuttle_secrets::Secrets] secret_store: SecretStore,
+    #[shuttle_runtime::Secrets] secret_store: SecretStore,
 ) -> Result<GoodGirlService, shuttle_runtime::Error> {
     let client = megalodon::generator(
         megalodon::SNS::Mastodon,
