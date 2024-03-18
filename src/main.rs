@@ -3,7 +3,10 @@ use std::time::Duration;
 use rand::{seq::SliceRandom, thread_rng};
 use shuttle_secrets::SecretStore;
 
-const NAMES: &[&str] = &["Lily", "Alice"];
+const NAMES: &[&str] = &[
+    "Lily", "Alice", "Emily", "Rose", "Sophie", "Sophia", "Samantha", "Natalie", "Luna", "Ruby",
+    "Zoey", "Chloe", "Emma", "Alex", "Amy", "Sammy",
+];
 
 #[shuttle_runtime::main]
 async fn shuttle_main(
