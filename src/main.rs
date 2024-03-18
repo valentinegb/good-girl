@@ -1,5 +1,6 @@
 use std::time::Duration;
 
+use megalodon::Megalodon;
 use rand::{seq::SliceRandom, thread_rng};
 use shuttle_runtime::SecretStore;
 use tracing::info;
@@ -21,7 +22,16 @@ async fn shuttle_main(
         None,
     );
 
-    tokio::spawn(async move {
+    Ok(GoodGirlService { client })
+}
+
+struct GoodGirlService {
+    client: Box<dyn Megalodon + Send + Sync>,
+}
+
+#[shuttle_runtime::async_trait]
+impl shuttle_runtime::Service for GoodGirlService {
+    async fn bind(self, _addr: std::net::SocketAddr) -> Result<(), shuttle_runtime::Error> {
         loop {
             tokio::time::sleep(Duration::from_secs(SLEEP_SECS)).await;
 
@@ -35,20 +45,8 @@ async fn shuttle_main(
 
             let status = format!("{} is such a good girl", name);
 
-            client.post_status(status.clone(), None).await.unwrap();
+            self.client.post_status(status.clone(), None).await.unwrap();
             info!("Posted a status: {status}");
         }
-    });
-
-    Ok(GoodGirlService {})
-}
-
-struct GoodGirlService {}
-
-#[shuttle_runtime::async_trait]
-impl shuttle_runtime::Service for GoodGirlService {
-    async fn bind(self, _addr: std::net::SocketAddr) -> Result<(), shuttle_runtime::Error> {
-        // Keep the service going for as long as possible
-        loop {}
     }
 }
