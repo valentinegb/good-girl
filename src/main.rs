@@ -1,9 +1,9 @@
 use std::time::Duration;
 
-use megalodon::Megalodon;
+use megalodon::{megalodon::PostStatusOutput, Megalodon};
 use rand::{seq::SliceRandom, thread_rng};
 use shuttle_runtime::SecretStore;
-use tracing::info;
+use tracing::{error, info};
 
 const SLEEP_SECS: u64 = 60 * 60 * 24;
 const NAMES: &[&str] = &[
@@ -43,10 +43,23 @@ impl shuttle_runtime::Service for GoodGirlService {
                 name = NAMES.choose(&mut rng).unwrap();
             }
 
-            let status = format!("{} is such a good girl", name);
-
-            self.client.post_status(status.clone(), None).await.unwrap();
-            info!("Posted a status: {status}");
+            match self
+                .client
+                .post_status(format!("{} is such a good girl", name), None)
+                .await
+            {
+                Ok(response) => {
+                    match response.json {
+                        PostStatusOutput::Status(status) => {
+                            info!("Posted a status with content \"{}\"", status.content);
+                        }
+                        other => {
+                            error!("Expected `PostStatusOutput` to be `Status` variant, got: {other:#?}");
+                        }
+                    }
+                }
+                Err(err) => error!("Failed to post status: {err}"),
+            }
         }
     }
 }
