@@ -11,10 +11,12 @@ async fn shuttle_main(
         None,
     );
 
-    client
-        .post_status("I AM ALIVE".to_string(), None)
-        .await
-        .unwrap();
+    tokio::spawn(async move {
+        client
+            .post_status("PLACEHOLDER is such a good girl".to_string(), None)
+            .await
+            .unwrap();
+    });
 
     Ok(MyService {})
 }
