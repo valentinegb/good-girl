@@ -6,7 +6,7 @@ async fn shuttle_main(
 ) -> Result<MyService, shuttle_runtime::Error> {
     let client = megalodon::generator(
         megalodon::SNS::Mastodon,
-        "https://hachyderm.io".to_string(),
+        "https://gaygeek.social".to_string(),
         secret_store.get("ACCESS_TOKEN"),
         None,
     );
