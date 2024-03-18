@@ -1,4 +1,9 @@
+use std::time::Duration;
+
+use rand::{seq::SliceRandom, thread_rng};
 use shuttle_secrets::SecretStore;
+
+const NAMES: &[&str] = &["Lily", "Alice"];
 
 #[shuttle_runtime::main]
 async fn shuttle_main(
@@ -12,10 +17,21 @@ async fn shuttle_main(
     );
 
     tokio::spawn(async move {
-        client
-            .post_status("PLACEHOLDER is such a good girl".to_string(), None)
-            .await
-            .unwrap();
+        loop {
+            let name;
+
+            {
+                let mut rng = thread_rng();
+
+                name = NAMES.choose(&mut rng).unwrap();
+            }
+
+            client
+                .post_status(format!("{} is such a good girl", name), None)
+                .await
+                .unwrap();
+            tokio::time::sleep(Duration::from_secs(60 * 60)).await;
+        }
     });
 
     Ok(MyService {})
