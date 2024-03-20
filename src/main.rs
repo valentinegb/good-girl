@@ -8,7 +8,7 @@ use tracing::{error, info};
 const SLEEP_SECS: u64 = 60 * 60 * 24;
 const NAMES: &[&str] = &[
     "Lily", "Alice", "Emily", "Rose", "Sophie", "Sophia", "Samantha", "Natalie", "Luna", "Ruby",
-    "Zoey", "Chloe", "Emma", "Alex", "Amy", "Sammy",
+    "Zoey", "Chloe", "Emma", "Alex", "Amy", "Sammy", "Sabrina",
 ];
 
 #[shuttle_runtime::main]
