@@ -25,6 +25,7 @@ const NAMES: &[&str] = &[
     "Sammy",
     "Sabrina",
     "Valentine",
+    "Jade",
 ];
 
 #[shuttle_runtime::main]
